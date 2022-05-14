@@ -45,4 +45,44 @@ contract CCRouter is NonblockingLzApp {
         // uint16 _dstChainId, bytes memory _payload, address payable _refundAddress, address _zroPaymentAddress, bytes memory _adapterParams
         _lzSend(_dstChainId, payload, _refundAddress, _zroPaymentAddress, _adapterParams, msg.value);
     }
+
+
+    //Axelar
+
+    function callContract(
+    string memory destinationChain,
+    string memory contractAddress,
+    bytes memory payload
+	) external;
+
+	function _execute(
+    string memory sourceChain,
+    string memory sourceAddress,
+    bytes calldata payload
+	) internal virtual {}
+
+	function callContractWithToken(
+    string memory destinationChain,
+    string memory contractAddress,
+    bytes memory payload,
+    string memory symbol,
+    uint256 amount
+	) external;r
+
+	function _executeWithToken(
+    string memory sourceChain,
+    string memory sourceAddress,
+    bytes calldata payload,
+    string memory tokenSymbol,
+    uint256 amount
+	) internal virtual {
+    // decode recipient
+    address memory recipient = abi.decode(payload, (address));
+    // get ERC-20 address from gateway
+    address tokenAddress = gateway.tokenAddresses(tokenSymbol);
+
+    // transfer received tokens to the recipient
+    IERC20(tokenAddress).transfer(recipient, amount);
+	w}
+
 }

@@ -2,6 +2,8 @@
 pragma solidity ^0.8.4;
 
 import "../lzApp/NonblockingLzApp.sol";
+import './interfaces/Axelar/IAxelarExecutable.sol';
+import './interfaces/Axelar//AxelarGasReceiver.sol';
 
 
 contract CCRouter is NonblockingLzApp {
@@ -9,6 +11,12 @@ contract CCRouter is NonblockingLzApp {
 
 
 	// contructor
+
+        //axelar
+        constructor(address gateway_, address gasReceiver_) IAxelarExecutable(gateway_) {
+        gasReceiver = AxelarGasReceiver(gasReceiver_);
+        }
+    }
 
 
 	// functions
@@ -49,40 +57,27 @@ contract CCRouter is NonblockingLzApp {
 
     //Axelar
 
-    function callContract(
-    string memory destinationChain,
-    string memory contractAddress,
-    bytes memory payload
-	) external;
 
-	function _execute(
-    string memory sourceChain,
-    string memory sourceAddress,
-    bytes calldata payload
-	) internal virtual {}
+    function sendMsgViaAxelar(
+        string memory dstChain,
+        string memory dstAddress,
+        bytes memory payload
+    ) external payable {
+        
+        if(msg.value > 0) {
+            gasReceiver.payNativeGasForContractCall{ value: msg.value }(
+                address(this),
+                dstChain,
+                dstAddress,
+                payload,
+                msg.sender
+            );
+        }
+        gateway.callContract(
+            dstChain,
+            dstAddress,
+            payload
+        );
 
-	function callContractWithToken(
-    string memory destinationChain,
-    string memory contractAddress,
-    bytes memory payload,
-    string memory symbol,
-    uint256 amount
-	) external;r
-
-	function _executeWithToken(
-    string memory sourceChain,
-    string memory sourceAddress,
-    bytes calldata payload,
-    string memory tokenSymbol,
-    uint256 amount
-	) internal virtual {
-    // decode recipient
-    address memory recipient = abi.decode(payload, (address));
-    // get ERC-20 address from gateway
-    address tokenAddress = gateway.tokenAddresses(tokenSymbol);
-
-    // transfer received tokens to the recipient
-    IERC20(tokenAddress).transfer(recipient, amount);
-	w}
 
 }

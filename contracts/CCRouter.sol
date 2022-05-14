@@ -4,7 +4,7 @@ pragma solidity ^0.8.4;
 import "../lzApp/NonblockingLzApp.sol";
 import './interfaces/Axelar/IAxelarExecutable.sol';
 import './interfaces/Axelar//AxelarGasReceiver.sol';
-
+import { IERC20 } from '@axelar-network/axelar-cgp-solidity/src/interfaces/IERC20.sol';
 
 contract CCRouter is NonblockingLzApp {
 	// vars
@@ -78,6 +78,23 @@ contract CCRouter is NonblockingLzApp {
             dstAddress,
             payload
         );
+
+    
+    function _executeWithToken(
+    string memory sourceChain,
+    string memory sourceAddress,
+    bytes calldata payload,
+    string memory tokenSymbol,
+    uint256 amount
+    ) internal virtual {
+        // decode recipient
+        address memory recipient = abi.decode(payload, (address));
+        // get ERC-20 address from gateway
+        address tokenAddress = gateway.tokenAddresses(tokenSymbol);
+
+     // transfer received tokens to the recipient
+        IERC20(tokenAddress).transfer(recipient, amount);
+}
 
 
 }

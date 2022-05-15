@@ -1,9 +1,13 @@
 // SPDX-License-Identifier: GPL-3.0
 pragma solidity ^0.8.4;
 
+// Lz imports
 import "../lzApp/NonblockingLzApp.sol";
+
+// Axelar imports
 import './interfaces/Axelar/IAxelarExecutable.sol';
 import './interfaces/Axelar//AxelarGasReceiver.sol';
+
 import { IERC20 } from '@axelar-network/axelar-cgp-solidity/src/interfaces/IERC20.sol';
 
 contract CCRouter is NonblockingLzApp {
@@ -12,8 +16,8 @@ contract CCRouter is NonblockingLzApp {
 
 	// contructor
 
-        //axelar
-        constructor(address gateway_, address gasReceiver_) IAxelarExecutable(gateway_) {
+    //axelar
+    constructor(address gateway_, address gasReceiver_) IAxelarExecutable(gateway_) {
         gasReceiver = AxelarGasReceiver(gasReceiver_);
         }
     }
@@ -78,23 +82,25 @@ contract CCRouter is NonblockingLzApp {
             dstAddress,
             payload
         );
+    }
 
     
     function _executeWithToken(
-    string memory sourceChain,
-    string memory sourceAddress,
-    bytes calldata payload,
-    string memory tokenSymbol,
-    uint256 amount
+        string memory sourceChain,
+        string memory sourceAddress,
+        bytes calldata payload,
+        string memory tokenSymbol,
+        uint256 amount
     ) internal virtual {
         // decode recipient
         address memory recipient = abi.decode(payload, (address));
         // get ERC-20 address from gateway
         address tokenAddress = gateway.tokenAddresses(tokenSymbol);
 
-     // transfer received tokens to the recipient
+        // transfer received tokens to the recipient
         IERC20(tokenAddress).transfer(recipient, amount);
-}
+
+    }
 
 
 }

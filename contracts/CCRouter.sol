@@ -19,11 +19,7 @@ contract CCRouter is NonblockingLzApp {
     //axelar
     constructor(address gateway_, address gasReceiver_) IAxelarExecutable(gateway_) {
         gasReceiver = AxelarGasReceiver(gasReceiver_);
-        }
     }
-
-
-	// functions
 
 	/**
      * @dev adding chain support by whitelisting bridge

@@ -1,4 +1,18 @@
-# Advanced Sample Hardhat Project
+# Maximum Messaging service
+
+Aggregates multiple cross-chain messaging protocols
+
+- [x] Wormhole
+- [x] Axelar
+- [x] LayerZero
+- [ ] Nomad
+- [ ] Connext
+
+
+
+
+
+### Advanced Sample Hardhat Project
 
 This project demonstrates an advanced Hardhat use case, integrating other tools commonly used alongside Hardhat in the ecosystem.
 

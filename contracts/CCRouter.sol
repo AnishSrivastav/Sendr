@@ -16,6 +16,9 @@ import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 // wormhole imports
 import "./wormhole/ethereum/Implementation.sol";
 
+// nomad imports
+// import "./nomad/Router.sol";
+
 contract CCRouter is Implementation, NonblockingLzApp, IAxelarExecutable {
 	// vars
     IAxelarGasReceiver public gasReceiver;
@@ -26,9 +29,11 @@ contract CCRouter is Implementation, NonblockingLzApp, IAxelarExecutable {
         address gateway_, 
         address gasReceiver_,
         address endpoint_
+        // address _xAppConnectionManager
     ) IAxelarExecutable(gateway_) NonblockingLzApp(endpoint_) {
         endpoint = ILayerZeroEndpoint(endpoint_);
         gasReceiver = IAxelarGasReceiver(gasReceiver_);
+        // __XAppConnectionClient_initialize(_xAppConnectionManager);
     }
 
     function initialize() initializer public {

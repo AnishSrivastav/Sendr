@@ -1,7 +1,7 @@
-# Sendr
+# Sendr - The Cross-Chain Messaging Aggregator
 Sendr is a Future-ready Cross-Chain Messaging Aggregator.
 
-! Sendr is under constant-updation and maintenance
+!! Sendr is under constant-updation and maintenance !!
 
 Aggregates multiple cross-chain messaging protocols
 

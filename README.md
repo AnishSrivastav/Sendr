@@ -1,4 +1,4 @@
-# Maximum Messaging service
+# Maximum Messaging service so that you can do more with your holding and can get all the benefits from all the chains
 
 Aggregates multiple cross-chain messaging protocols
 
